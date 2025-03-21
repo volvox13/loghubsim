@@ -200,15 +200,15 @@ def get_vehicles(is_land: bool,
                  is_test: bool,
                  is_parcel_only: bool = False,):
     """
-    返回 uld 或者 truck 数据，字典形式：
+    Returns ULD or truck data in dictionary form:
 
     parcel_dict:
-        key 为 （货车编号， 到达时间，货车货物路径类型（L／A..））
-        value 为 一个uld的 packages 数据表
+        key: (truck number, arrival time, truck cargo path type (L/A...))
+        value: a data table of packages for a ULD
 
     small_dict:
-        key 为 parcel_id
-        value 为 一个small_bag的 packages 数据表
+        key: parcel_id
+        value: a data table of packages for a small bag
     """
     if is_land:
         table_parcel_n = "i_od_parcel_landside"
@@ -259,8 +259,8 @@ def get_vehicles(is_land: bool,
 
 def get_unload_setting():
     """
-    返回字典形式：
-        unload port 和 truck 类型（LL， LA, AA,  AL） 的映射
+    Returns a dictionary mapping:
+        unload port and truck types (LL, LA, AA, AL)
     examples:
         {'r1_1': ['LL', 'LA'], 'r3_1': ['LL', ]}
     """
@@ -289,7 +289,7 @@ def get_reload_setting():
 
 
 def get_resource_limit():
-    """返回资源表，包含了单个资源处理时间"""
+    """Returns a resource table, including the processing time for individual resources."""
 
     table_name2 = "i_equipment_resource"
 
@@ -329,7 +329,7 @@ def get_resource_equipment_dict():
 
 def get_pipelines():
 
-    """返回队列的表， 包含了每个队列对应的功能区域和传送时间"""
+    """Returns a table of queues, including the functional area and transmission time for each queue."""
 
     tab_n_queue_io = "i_queue_io"
     tab_queue_io = load_from_mysql(tab_n_queue_io)
@@ -367,7 +367,7 @@ def get_pipelines():
     ind_cross = \
         tab_queue_io.equipment_port_next.str.startswith('e') | tab_queue_io.equipment_port_next.str.startswith('x')
 
-    # i-i, i-c, i-e 当做是需要请求资源的传送带
+    # Treat i-i, i-c, i-e as conveyors that require resource requests
     ind_pipeline_res = \
         tab_queue_io.equipment_port_last.str.startswith('i') & \
         (tab_queue_io.equipment_port_next.str.startswith('c') | tab_queue_io.equipment_port_next.str.startswith('i')\
@@ -397,14 +397,14 @@ def get_pipelines():
 
 
 def get_queue_io():
-    """返回 data frame: queue_io , 只包含 normal_path == 1"""
+    """Returns a data frame: queue_io, only includes rows where normal_path == 1"""
     table = load_from_mysql('i_queue_io')
     return table[table.normal_path == 1]
 
 
 def get_equipment_process_time():
     """
-    返回设备对应的处理时间，不一定与资源挂钩
+    Returns the processing time corresponding to the equipment, which may not necessarily be linked to resources.
     samples:
         {'a1_1': 0.0,
          'a1_10': 0.0,
@@ -589,7 +589,7 @@ def get_equipment_on_off():
 
 
 def get_equipment_port_type():
-    """得到设备口的类型
+    """Get the type of device port.
 
     # r, a: unload
     # m: presort
