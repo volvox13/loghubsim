@@ -46,6 +46,9 @@ class RemoteMySQLConfig:
         PASS = "zp913913"
         DB = "hangzhouhubqa"
         CHARSET = 'utf8'
+        
+        engine = create_engine('sqlite:///local_db.sqlite')
+        
     else:
         HOST = "10.0.149.30"
         USER = "developer"
@@ -53,7 +56,7 @@ class RemoteMySQLConfig:
         DB = "hangzhouhubqa_v3"
         CHARSET = 'utf8'
 
-    engine = create_engine(
+        engine = create_engine(
                 f'mysql+pymysql://{USER}:{PASS}@{HOST}/{DB}?charset={CHARSET}',
                 isolation_level="READ UNCOMMITTED", )
 
