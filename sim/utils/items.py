@@ -1,6 +1,7 @@
 from collections import namedtuple
 from sqlalchemy.types import Integer, Text, DateTime, Float, VARCHAR
 from sqlalchemy import Table, MetaData, Column, create_engine
+import os
 
 from sim.config import RemoteMySQLConfig
 
@@ -90,13 +91,17 @@ class OutputTableColumnType:
 # tables schema
 # metadata = MetaData(bind=RemoteMySQLConfig.engine)
 
+# Define the connection string
+# connection_string = "mysql+pymysql://root:password@localhost/hangzhouhubqa?charset=utf8"
+connection_string = os.getenv('DB_CONNECTION_STRING')
 # Create the engine
-engine = create_engine(RemoteMySQLConfig.engine)
+engine = create_engine(connection_string)
 # Initialize MetaData without bind
 metadata = MetaData()
 # Reflect the metadata with the engine
 metadata.reflect(bind=engine)
-
+# Verify the connection by printing the tables
+# print(metadata.tables.keys())
 
 machine_table_sche = \
     Table(
